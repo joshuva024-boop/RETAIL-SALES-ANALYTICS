@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RETAIL SALES ANALYTICS — Data Analyst Case Study</title>
+<meta name="description" content="A project-demo retail analytics solution using PostgreSQL, Power BI, and DAX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">▮</span>
+      <span class="brand-text">RETAIL SALES <span class="brand-accent">ANALYTICS</span></span>
+    </a>
+    <nav class="primary-nav" aria-label="Section navigation">
+      <a href="#overview">Overview</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#problem">Problem</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#sql">SQL</a>
+      <a href="#modules">Modules</a>
+      <a href="#dax">DAX</a>
+      <a href="#insights">Insights</a>
+      <a href="#techstack">Stack</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primary-nav-mobile" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="primary-nav-mobile" aria-label="Mobile section navigation">
+    <a href="#overview">Overview</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#problem">Problem</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#sql">SQL</a>
+    <a href="#modules">Modules</a>
+    <a href="#dax">DAX</a>
+    <a href="#insights">Insights</a>
+    <a href="#techstack">Stack</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============================= HERO ============================= -->
+  <section class="hero" id="hero-section" aria-labelledby="hero-title">
+    <div class="wrap hero-fullwidth">
+      <div class="hero-header-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span class="badge-text">Project Demo — Simulated Retail Data</span>
+      </div>
+
+      <h1 id="hero-title" class="hero-title">
+        <span class="title-retail-sales">RETAIL SALES</span><br>
+        <span class="hero-highlight">ANALYTICS</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A project-demo retail analytics solution using PostgreSQL, Power BI, and DAX.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#pipeline" class="btn btn-primary">Explore Data Pipeline</a>
+        <a href="#dashboard" class="btn btn-outline">View Dashboard Concepts</a>
+        <a href="#modules" class="btn btn-outline">Inspect Dashboard Modules</a>
+      </div>
+
+      <!-- Formal Full-Width Metadata Bar -->
+      <div class="hero-meta-bar" role="list" aria-label="Project Meta Information">
+        <div class="meta-bar-item" role="listitem">
+          <span class="meta-bar-label">Role</span>
+          <span class="meta-bar-val">Data Analyst</span>
+        </div>
+        <div class="meta-bar-divider" aria-hidden="true"></div>
+        <div class="meta-bar-item" role="listitem">
+          <span class="meta-bar-label">Tools Stack</span>
+          <span class="meta-bar-val">PostgreSQL · Power BI · DAX</span>
+        </div>
+        <div class="meta-bar-divider" aria-hidden="true"></div>
+        <div class="meta-bar-item" role="listitem">
+          <span class="meta-bar-label">Project Timeline</span>
+          <span class="meta-bar-val">4 Weeks</span>
+        </div>
+        <div class="meta-bar-divider" aria-hidden="true"></div>
+        <div class="meta-bar-item" role="listitem">
+          <span class="meta-bar-label">Dataset Grain</span>
+          <span class="meta-bar-val">Simulated 50,000+ Transactions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticker Bar -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>ILLUSTRATIVE TOTAL SALES <b>$4.82M</b></span>
+        <span class="tk-sep">◆</span>
+        <span>ILLUSTRATIVE TOTAL PROFIT <b>$612K</b></span>
+        <span class="tk-sep">◆</span>
+        <span>ILLUSTRATIVE MARGIN <b>12.7%</b></span>
+        <span class="tk-sep">◆</span>
+        <span>SIMULATED MOM GROWTH <b>+8.4%</b></span>
+        <span class="tk-sep">◆</span>
+        <span>SIMULATED TRANSACTIONS <b>50,000+</b></span>
+        <span class="tk-sep">◆</span>
+        <span>ILLUSTRATIVE TOTAL SALES <b>$4.82M</b></span>
+        <span class="tk-sep">◆</span>
+        <span>ILLUSTRATIVE TOTAL PROFIT <b>$612K</b></span>
+        <span class="tk-sep">◆</span>
+        <span>ILLUSTRATIVE MARGIN <b>12.7%</b></span>
+        <span class="tk-sep">◆</span>
+        <span>SIMULATED MOM GROWTH <b>+8.4%</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= PROJECT OVERVIEW ============================= -->
+  <section id="overview" class="section overview-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Executive Summary</span>
+        <h2>Project Overview</h2>
+        <p>An end-to-end retail reporting pipeline designed to solve data fragmentation and power strategic decision-making.</p>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card overview-card reveal-card">
+          <div class="card-icon">🗄️</div>
+          <h3>Transactional Data Store</h3>
+          <p>Built a normalized 3NF PostgreSQL database handling multi-region transactions, product categories, store hierarchies, customer tiers, and inventory snapshots.</p>
+        </div>
+        <div class="card overview-card reveal-card">
+          <div class="card-icon">⚡</div>
+          <h3>SQL Transformations</h3>
+          <p>Engineered automated analytical reporting views in PostgreSQL to calculate item-level discounts, net revenue, cost of goods sold, and gross margins prior to BI load.</p>
+        </div>
+        <div class="card overview-card reveal-card">
+          <div class="card-icon">📊</div>
+          <h3>Power BI Star Schema</h3>
+          <p>Architected a high-performance Star Schema model connecting fact and dimension tables with single-direction filtering and a dedicated <code>DimDate</code> table.</p>
+        </div>
+        <div class="card overview-card reveal-card">
+          <div class="card-icon">📐</div>
+          <h3>DAX Analytics</h3>
+          <p>Developed dynamic DAX measures for core KPIs, month-over-month growth calculations, average order values, and store turnover benchmarks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DASHBOARD PAGE DESIGNS ============================= -->
+  <section id="dashboard" class="section dashboard-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Report Interfaces</span>
+        <h2>Dashboard Page Designs</h2>
+        <p>6 project-demo dashboard page concepts with interactive filterable visual elements.</p>
+      </div>
+
+      <div class="dash-tabs-wrapper reveal-card" data-dash-tabs>
+        <div class="dash-tabs-nav" role="tablist" aria-label="Dashboard Pages">
+          <button class="dash-tab is-active" data-page="exec" role="tab" aria-selected="true">1. Executive Overview</button>
+          <button class="dash-tab" data-page="regional" role="tab" aria-selected="false">2. Regional Sales</button>
+          <button class="dash-tab" data-page="product" role="tab" aria-selected="false">3. Product Performance</button>
+          <button class="dash-tab" data-page="customer" role="tab" aria-selected="false">4. Customer Segmentation</button>
+          <button class="dash-tab" data-page="profit" role="tab" aria-selected="false">5. Profitability</button>
+          <button class="dash-tab" data-page="inventory" role="tab" aria-selected="false">6. Inventory Analytics</button>
+        </div>
+
+        <!-- Page 1: Executive Overview with Interactive Dept Bars -->
+        <div class="dash-page-panel is-active" id="dash-page-exec" role="tabpanel">
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Executive Overview Dashboard Concept</span>
+              <span class="dash-demo-tag">Interactive Demo Visual</span>
+            </div>
+
+            <!-- Dynamic Executive KPIs -->
+            <div class="dash-kpi-row">
+              <div class="mock-kpi">
+                <span class="k-label">TOTAL SALES</span>
+                <span class="k-val" id="exec-kpi-sales">$4.82M</span>
+                <span class="k-sub green" id="exec-kpi-sales-sub">+8.4% MoM</span>
+              </div>
+              <div class="mock-kpi">
+                <span class="k-label">TOTAL PROFIT</span>
+                <span class="k-val" id="exec-kpi-profit">$612K</span>
+                <span class="k-sub green" id="exec-kpi-profit-sub">+6.1% MoM</span>
+              </div>
+              <div class="mock-kpi">
+                <span class="k-label">PROFIT MARGIN</span>
+                <span class="k-val" id="exec-kpi-margin">12.7%</span>
+                <span class="k-sub" id="exec-kpi-margin-sub">Target: 12.0%</span>
+              </div>
+              <div class="mock-kpi">
+                <span class="k-label">TOTAL ORDERS</span>
+                <span class="k-val" id="exec-kpi-orders">24,510</span>
+                <span class="k-sub" id="exec-kpi-orders-sub">Avg $196.65</span>
+              </div>
+            </div>
+
+            <div class="dash-chart-row">
+              <div class="mock-chart main-chart">
+                <div class="chart-header-row">
+                  <span class="chart-header">Monthly Sales Revenue vs Gross Profit Trend</span>
+                  <span class="chart-active-filter-badge" id="execChartFilterBadge">Filtered by: All Departments</span>
+                </div>
+                <div class="mock-bars-container">
+                  <div class="bar-group"><div class="bar bar-s" id="bar-jan-s" style="height: 60%;"></div><div class="bar bar-p" id="bar-jan-p" style="height: 25%;"></div><span>Jan</span></div>
+                  <div class="bar-group"><div class="bar bar-s" id="bar-feb-s" style="height: 70%;"></div><div class="bar bar-p" id="bar-feb-p" style="height: 30%;"></div><span>Feb</span></div>
+                  <div class="bar-group"><div class="bar bar-s" id="bar-mar-s" style="height: 65%;"></div><div class="bar bar-p" id="bar-mar-p" style="height: 28%;"></div><span>Mar</span></div>
+                  <div class="bar-group"><div class="bar bar-s" id="bar-apr-s" style="height: 85%;"></div><div class="bar bar-p" id="bar-apr-p" style="height: 40%;"></div><span>Apr</span></div>
+                  <div class="bar-group"><div class="bar bar-s" id="bar-may-s" style="height: 95%;"></div><div class="bar bar-p" id="bar-may-p" style="height: 48%;"></div><span>May</span></div>
+                </div>
+              </div>
+
+              <!-- Interactive Separate Bar Lines for Revenue Share by Department -->
+              <div class="mock-chart side-chart">
+                <div class="chart-header">Revenue Share by Department</div>
+                <p class="chart-click-hint">💡 Click any bar line to filter KPI values:</p>
+                <div class="dept-bar-list" id="deptBarList">
+                  <div class="dept-bar-item is-active" data-dept="all">
+                    <div class="dept-label"><span>All Departments</span><span class="d-val">100%</span></div>
+                    <div class="dept-progress-bg"><div class="dept-progress-fill d0" style="width: 100%;"></div></div>
+                  </div>
+                  <div class="dept-bar-item" data-dept="tech">
+                    <div class="dept-label"><span>Tech</span><span class="d-val">$1.83M (38%)</span></div>
+                    <div class="dept-progress-bg"><div class="dept-progress-fill d1" style="width: 38%;"></div></div>
+                  </div>
+                  <div class="dept-bar-item" data-dept="living">
+                    <div class="dept-label"><span>Living</span><span class="d-val">$1.25M (26%)</span></div>
+                    <div class="dept-progress-bg"><div class="dept-progress-fill d2" style="width: 26%;"></div></div>
+                  </div>
+                  <div class="dept-bar-item" data-dept="fashion">
+                    <div class="dept-label"><span>Fashion</span><span class="d-val">$867K (18%)</span></div>
+                    <div class="dept-progress-bg"><div class="dept-progress-fill d3" style="width: 18%;"></div></div>
+                  </div>
+                  <div class="dept-bar-item" data-dept="other">
+                    <div class="dept-label"><span>Other</span><span class="d-val">$867K (18%)</span></div>
+                    <div class="dept-progress-bg"><div class="dept-progress-fill d4" style="width: 18%;"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 2: Regional Sales with Interactive Region Cards -->
+        <div class="dash-page-panel" id="dash-page-regional" role="tabpanel" hidden>
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Regional Sales & Store Analysis Concept</span>
+              <span class="dash-demo-tag">Interactive Demo Visual</span>
+            </div>
+
+            <p class="chart-click-hint">💡 Click a region card to dynamically filter regional store productivity:</p>
+
+            <div class="dash-kpi-row regional-filter-row" id="regionalFilterRow">
+              <div class="mock-kpi region-kpi-card is-active" data-region="all">
+                <span class="k-label">ALL REGIONS</span>
+                <span class="k-val">$4.82M</span>
+                <span class="k-sub green">6 Stores Total</span>
+              </div>
+              <div class="mock-kpi region-kpi-card" data-region="na-east">
+                <span class="k-label">NORTH AMERICA EAST</span>
+                <span class="k-val">$1.64M</span>
+                <span class="k-sub">3 Stores</span>
+              </div>
+              <div class="mock-kpi region-kpi-card" data-region="na-west">
+                <span class="k-label">NORTH AMERICA WEST</span>
+                <span class="k-val">$1.38M</span>
+                <span class="k-sub">2 Stores</span>
+              </div>
+              <div class="mock-kpi region-kpi-card" data-region="eu-west">
+                <span class="k-label">EUROPE WEST</span>
+                <span class="k-val">$980K</span>
+                <span class="k-sub">1 Store</span>
+              </div>
+            </div>
+
+            <div class="dash-chart-row">
+              <div class="mock-chart main-chart">
+                <div class="chart-header-row">
+                  <span class="chart-header" id="regionalChartTitle">Store Productivity Comparison ($ Sales per Square Foot)</span>
+                  <span class="chart-active-filter-badge" id="regionalFilterBadge">Viewing: All Stores</span>
+                </div>
+                <div class="mock-horizontal-bars" id="regionalStoreBars">
+                  <div class="h-row" data-region="na-east"><span>Manhattan Flagship</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 92%;"></div></div><span>$840/sqft</span></div>
+                  <div class="h-row" data-region="na-west"><span>San Francisco Bay</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 84%;"></div></div><span>$765/sqft</span></div>
+                  <div class="h-row" data-region="eu-west"><span>London Regent St</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 78%;"></div></div><span>$710/sqft</span></div>
+                  <div class="h-row" data-region="na-east"><span>Tokyo Ginza</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 74%;"></div></div><span>$680/sqft</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 3 -->
+        <div class="dash-page-panel" id="dash-page-product" role="tabpanel" hidden>
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Product Performance & Category Analysis</span>
+              <span class="dash-demo-tag">Project Demo Visual</span>
+            </div>
+            <div class="dash-chart-row">
+              <div class="mock-chart main-chart">
+                <div class="chart-header">Top 5 Revenue Generating SKUs</div>
+                <div class="mock-horizontal-bars">
+                  <div class="h-row"><span>Pro Book 14-inch Laptop</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 95%;"></div></div><span>$1.18M</span></div>
+                  <div class="h-row"><span>UltraHD 55-inch Smart TV</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 82%;"></div></div><span>$940K</span></div>
+                  <div class="h-row"><span>Mountain Trail Bicycle</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 68%;"></div></div><span>$720K</span></div>
+                  <div class="h-row"><span>Smart Robot Vacuum</span><div class="h-bar-bg"><div class="h-bar-fill" style="width: 55%;"></div></div><span>$510K</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 4 -->
+        <div class="dash-page-panel" id="dash-page-customer" role="tabpanel" hidden>
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Customer Segmentation & Loyalty Tiers</span>
+              <span class="dash-demo-tag">Project Demo Visual</span>
+            </div>
+            <div class="dash-kpi-row">
+              <div class="mock-kpi"><span class="k-label">PLATINUM MEMBERS</span><span class="k-val">1,240</span><span class="k-sub">$1,450 Avg LTV</span></div>
+              <div class="mock-kpi"><span class="k-label">GOLD MEMBERS</span><span class="k-val">3,850</span><span class="k-sub">$820 Avg LTV</span></div>
+              <div class="mock-kpi"><span class="k-label">SILVER MEMBERS</span><span class="k-val">8,100</span><span class="k-sub">$410 Avg LTV</span></div>
+              <div class="mock-kpi"><span class="k-label">REPEAT RATE</span><span class="k-val">42.8%</span><span class="k-sub">2+ Purchases</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 5 -->
+        <div class="dash-page-panel" id="dash-page-profit" role="tabpanel" hidden>
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Profitability & Margin Analysis</span>
+              <span class="dash-demo-tag">Project Demo Visual</span>
+            </div>
+            <div class="dash-kpi-row">
+              <div class="mock-kpi"><span class="k-label">GROSS REVENUE</span><span class="k-val">$5.10M</span></div>
+              <div class="mock-kpi"><span class="k-label">DISCOUNTS GIVEN</span><span class="k-val">-$280K</span><span class="k-sub red">5.4% Erosion</span></div>
+              <div class="mock-kpi"><span class="k-label">TOTAL COGS</span><span class="k-val">-$4.21M</span></div>
+              <div class="mock-kpi"><span class="k-label">NET PROFIT</span><span class="k-val">$612K</span><span class="k-sub green">12.7% Margin</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page 6 -->
+        <div class="dash-page-panel" id="dash-page-inventory" role="tabpanel" hidden>
+          <div class="mock-dash-frame">
+            <div class="dash-top-bar">
+              <span class="dash-title-text">Power BI — Inventory Analytics & Turnover Concept</span>
+              <span class="dash-demo-tag">Project Demo Visual</span>
+            </div>
+            <div class="dash-kpi-row">
+              <div class="mock-kpi"><span class="k-label">INVENTORY TURNOVER</span><span class="k-val">4.2x</span><span class="k-sub">Target: 5.0x</span></div>
+              <div class="mock-kpi"><span class="k-label">UNITS ON HAND</span><span class="k-val">14,250</span></div>
+              <div class="mock-kpi"><span class="k-label">STOCK RISK SKUS</span><span class="k-val">8 SKUs</span><span class="k-sub red">&lt; 14 Days Cover</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= BUSINESS PROBLEM ============================= -->
+  <section id="problem" class="section problem-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Challenges & Context</span>
+        <h2>Business Problem</h2>
+        <p>Retail executive leadership struggled with manual, delayed reporting and zero cross-channel visibility.</p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card reveal-card">
+          <div class="problem-badge">Challenge 1</div>
+          <h3>Fragmented Data Silos</h3>
+          <p>Transaction records and inventory snapshots lived in isolated operational databases, making cross-functional reporting slow and prone to errors.</p>
+        </div>
+        <div class="problem-card reveal-card">
+          <div class="problem-badge">Challenge 2</div>
+          <h3>Slow Monthly Reporting</h3>
+          <p>Monthly sales reconciliation relied on manual spreadsheet compilation, taking up to 10 days after month-end close to produce executive summaries.</p>
+        </div>
+        <div class="problem-card reveal-card">
+          <div class="problem-badge">Challenge 3</div>
+          <h3>Margin Visibility Blindspots</h3>
+          <p>Leadership lacked visibility into true net profitability across individual products, regional store types, and customer loyalty tiers.</p>
+        </div>
+        <div class="problem-card reveal-card">
+          <div class="problem-badge">Challenge 4</div>
+          <h3>Inconsistent MoM Tracking</h3>
+          <p>No standardized time-intelligence logic existed to track month-over-month sales trends and inventory turnover rate benchmarked against targets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DATA PIPELINE ============================= -->
+  <section id="pipeline" class="section pipeline-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Architecture & Flow</span>
+        <h2>Data Pipeline Architecture</h2>
+        <p>End-to-end data transformation pipeline with interactive flow steps and real-time state tracking.</p>
+      </div>
+
+      <div class="pipeline-flowchart reveal-card" id="pipelineFlowchart">
+        <div class="flow-step" data-step="1">
+          <div class="flow-icon">🛒</div>
+          <div class="flow-title">Retail Transactions</div>
+          <div class="flow-sub">50,000+ Sales Lines</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span class="flow-pulse-line"></span>➔</div>
+        <div class="flow-step" data-step="2">
+          <div class="flow-icon">🐘</div>
+          <div class="flow-title">PostgreSQL Database</div>
+          <div class="flow-sub">3NF Normalized Relational</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span class="flow-pulse-line"></span>➔</div>
+        <div class="flow-step" data-step="3">
+          <div class="flow-icon">🛠️</div>
+          <div class="flow-title">SQL Reporting Views</div>
+          <div class="flow-sub">Margin & Discount Calc</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span class="flow-pulse-line"></span>➔</div>
+        <div class="flow-step" data-step="4">
+          <div class="flow-icon">⭐</div>
+          <div class="flow-title">Power BI Star Schema</div>
+          <div class="flow-sub">Fact & Dim Relationships</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span class="flow-pulse-line"></span>➔</div>
+        <div class="flow-step" data-step="5">
+          <div class="flow-icon">📐</div>
+          <div class="flow-title">DAX KPI Measures</div>
+          <div class="flow-sub">Time Intelligence & Growth %</div>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span class="flow-pulse-line"></span>➔</div>
+        <div class="flow-step" data-step="6">
+          <div class="flow-icon">🖥️</div>
+          <div class="flow-title">Interactive Dashboard</div>
+          <div class="flow-sub">6 Reporting Interfaces</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= POSTGRESQL & SQL HIGHLIGHTS ============================= -->
+  <section id="sql" class="section sql-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Database Engineering</span>
+        <h2>PostgreSQL & SQL Highlights</h2>
+        <p>Production-ready SQL transformations, indexes, constraints, and analytical reporting views.</p>
+      </div>
+
+      <div class="code-tabs-container reveal-card" data-code-tabs>
+        <div class="tab-list" role="tablist" aria-label="SQL Script Highlights">
+          <button class="code-tab is-active" data-tab="schema" role="tab" aria-selected="true">01_create_schema.sql</button>
+          <button class="code-tab" data-tab="seed" role="tab" aria-selected="false">02_seed_demo_data.sql</button>
+          <button class="code-tab" data-tab="transform" role="tab" aria-selected="false">03_transformations.sql</button>
+          <button class="code-tab" data-tab="views" role="tab" aria-selected="false">04_powerbi_views.sql</button>
+        </div>
+
+        <div class="code-panel is-active" id="panel-schema" role="tabpanel">
+          <div class="code-header">
+            <span class="code-filename">sql/01_create_schema.sql</span>
+            <button class="copy-btn" data-copy-target="code-schema">Copy SQL</button>
+          </div>
+          <pre><code id="code-schema">-- Normalized PostgreSQL relational tables for retail sales analytics
+CREATE TABLE IF NOT EXISTS orders (
+    order_id        BIGSERIAL PRIMARY KEY,
+    order_number    VARCHAR(20) NOT NULL UNIQUE,
+    customer_id     INTEGER     NOT NULL REFERENCES customers(customer_id),
+    store_id        INTEGER     NOT NULL REFERENCES stores(store_id),
+    order_datetime  TIMESTAMP   NOT NULL,
+    order_channel   VARCHAR(20) NOT NULL CHECK (order_channel IN ('In-Store','Online','Mobile App')),
+    payment_method  VARCHAR(20) NOT NULL CHECK (payment_method IN ('Card','Cash','Digital Wallet','Gift Card')),
+    order_status    VARCHAR(20) NOT NULL DEFAULT 'Completed' CHECK (order_status IN ('Completed','Refunded','Cancelled'))
+);
+CREATE INDEX idx_orders_customer ON orders(customer_id);
+CREATE INDEX idx_orders_datetime ON orders(order_datetime);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    order_item_id       BIGSERIAL PRIMARY KEY,
+    order_id            BIGINT        NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    product_id          INTEGER       NOT NULL REFERENCES products(product_id),
+    quantity            INTEGER       NOT NULL CHECK (quantity > 0),
+    unit_price_at_sale  NUMERIC(10,2) NOT NULL CHECK (unit_price_at_sale >= 0),
+    unit_cost_at_sale   NUMERIC(10,2) NOT NULL CHECK (unit_cost_at_sale >= 0),
+    discount_pct        NUMERIC(5,2)  NOT NULL DEFAULT 0 CHECK (discount_pct BETWEEN 0 AND 100)
+);</code></pre>
+        </div>
+
+        <div class="code-panel" id="panel-seed" role="tabpanel" hidden>
+          <div class="code-header">
+            <span class="code-filename">sql/02_seed_demo_data.sql</span>
+            <button class="copy-btn" data-copy-target="code-seed">Copy SQL</button>
+          </div>
+          <pre><code id="code-seed">-- Data Generator Routine for Simulated Retail Transactions (50,000+ Items)
+DO $$
+DECLARE
+    v_i INT;
+    v_order_id BIGINT;
+BEGIN
+    FOR v_i IN 1..18000 LOOP
+        INSERT INTO orders (order_number, customer_id, store_id, order_datetime, order_channel, payment_method, order_status)
+        VALUES (
+            'ORD-2022-' || LPAD(v_i::TEXT, 6, '0'),
+            1 + (v_i % 500),
+            1 + (v_i % 9),
+            '2022-01-01 08:00:00'::TIMESTAMP + (v_i * INTERVAL '50 minutes'),
+            CASE WHEN v_i % 3 = 0 THEN 'Online' ELSE 'In-Store' END,
+            'Card',
+            'Completed'
+        ) RETURNING order_id INTO v_order_id;
+
+        INSERT INTO order_items (order_id, product_id, quantity, unit_price_at_sale, unit_cost_at_sale, discount_pct)
+        VALUES (v_order_id, 1 + (v_i % 10), 1 + (v_i % 4), 199.99, 85.00, CASE WHEN v_i % 5 = 0 THEN 10.0 ELSE 0 END);
+    END LOOP;
+END $$;</code></pre>
+        </div>
+
+        <div class="code-panel" id="panel-transform" role="tabpanel" hidden>
+          <div class="code-header">
+            <span class="code-filename">sql/03_transformations.sql</span>
+            <button class="copy-btn" data-copy-target="code-transform">Copy SQL</button>
+          </div>
+          <pre><code id="code-transform">-- Sales line transformation calculating net revenue and gross profit
+CREATE OR REPLACE VIEW vw_sales_line AS
+SELECT
+    oi.order_item_id,
+    o.order_id,
+    o.order_number,
+    o.order_datetime,
+    DATE_TRUNC('day', o.order_datetime)::DATE AS order_date,
+    c.customer_id,
+    s.store_name,
+    r.region_name,
+    p.product_name,
+    pc.category_name,
+    oi.quantity,
+    oi.unit_price_at_sale,
+    oi.discount_pct,
+    ROUND(oi.quantity * oi.unit_price_at_sale * (1 - oi.discount_pct / 100.0), 2) AS net_revenue,
+    ROUND(oi.quantity * oi.unit_cost_at_sale, 2) AS total_cost,
+    ROUND(oi.quantity * oi.unit_price_at_sale * (1 - oi.discount_pct / 100.0) - oi.quantity * oi.unit_cost_at_sale, 2) AS gross_profit
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+JOIN customers c ON c.customer_id = o.customer_id
+JOIN stores s ON s.store_id = o.store_id
+JOIN regions r ON r.region_id = s.region_id
+JOIN products p ON p.product_id = oi.product_id
+JOIN product_categories pc ON pc.category_id = p.category_id
+WHERE o.order_status = 'Completed';</code></pre>
+        </div>
+
+        <div class="code-panel" id="panel-views" role="tabpanel" hidden>
+          <div class="code-header">
+            <span class="code-filename">sql/04_powerbi_views.sql</span>
+            <button class="copy-btn" data-copy-target="code-views">Copy SQL</button>
+          </div>
+          <pre><code id="code-views">-- Analytics-ready FactSales View for Power BI Star Schema ingestion
+CREATE OR REPLACE VIEW vw_powerbi_fact_sales AS
+SELECT
+    oi.order_item_id,
+    o.order_id,
+    DATE_TRUNC('day', o.order_datetime)::DATE AS date_key,
+    o.customer_id,
+    o.store_id,
+    oi.product_id,
+    o.order_channel,
+    oi.quantity,
+    ROUND(oi.quantity * oi.unit_price_at_sale * (1 - oi.discount_pct / 100.0), 2) AS net_revenue,
+    ROUND(oi.quantity * oi.unit_cost_at_sale, 2) AS total_cost,
+    ROUND(oi.quantity * oi.unit_price_at_sale * (1 - oi.discount_pct / 100.0) - oi.quantity * oi.unit_cost_at_sale, 2) AS gross_profit
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+WHERE o.order_status = 'Completed';</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================= KEY DASHBOARD MODULES & FEATURES (COMPACT FIT) ============================= -->
+  <section id="modules" class="section modules-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Core Functionality</span>
+        <h2>Key Dashboard Modules & Features</h2>
+        <p>Real-time visibility across executive KPIs, inventory metrics, customer insights, and store performance.</p>
+      </div>
+
+      <div class="modules-grid-compact">
+        <div class="module-card-compact reveal-card">
+          <div class="module-header-sm">
+            <span class="module-num-sm">01</span>
+            <h3>Executive KPI Summary</h3>
+          </div>
+          <ul class="module-list-sm">
+            <li><b>Total Revenue & Margin:</b> Real-time sales & profit margins.</li>
+            <li><b>Average Order Value (AOV):</b> Spend per transaction.</li>
+            <li><b>Sales Growth Rates:</b> DoD, MoM & YoY performance.</li>
+            <li><b>Target vs. Actual Tracker:</b> Visual target progress.</li>
+          </ul>
+        </div>
+
+        <div class="module-card-compact reveal-card">
+          <div class="module-header-sm">
+            <span class="module-num-sm">02</span>
+            <h3>Product & Inventory</h3>
+          </div>
+          <ul class="module-list-sm">
+            <li><b>Top/Bottom Performers:</b> SKU revenue & margin ranks.</li>
+            <li><b>Sell-Through & Turnover:</b> Stock replacement speeds.</li>
+            <li><b>Stock Level Alerts:</b> Out-of-stock risk indicators.</li>
+            <li><b>Category Breakdown:</b> Sales distributions across departments.</li>
+          </ul>
+        </div>
+
+        <div class="module-card-compact reveal-card">
+          <div class="module-header-sm">
+            <span class="module-num-sm">03</span>
+            <h3>Customer & Purchasing</h3>
+          </div>
+          <ul class="module-list-sm">
+            <li><b>Customer LTV:</b> Lifetime account revenue estimates.</li>
+            <li><b>New vs. Returning Ratio:</b> Repeat loyalty trends.</li>
+            <li><b>Basket Cross-Selling:</b> Co-purchased item bundling.</li>
+          </ul>
+        </div>
+
+        <div class="module-card-compact reveal-card">
+          <div class="module-header-sm">
+            <span class="module-num-sm">04</span>
+            <h3>Store & Channel</h3>
+          </div>
+          <ul class="module-list-sm">
+            <li><b>Multi-Store/Channel:</b> Physical vs e-commerce ranks.</li>
+            <li><b>Geographic Heatmap:</b> Regional revenue density.</li>
+            <li><b>Peak Hour/Day Analysis:</b> Operational traffic timing.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DAX MEASURES (PINNED SINGLE-VIEWPORT PARALLAX SHOWCASE) ============================= -->
+  <section id="dax" class="section dax-section dax-pinned-section">
+    <div class="dax-sticky-wrapper" id="daxStickyWrapper">
+      <div class="wrap">
+        <div class="section-head reveal-card">
+          <span class="section-kicker">Data Calculations</span>
+          <h2>DAX Measure Library</h2>
+          <p>Production DAX measures powering KPI cards, month-over-month growth calculations, and ratios.</p>
+        </div>
+
+        <!-- DAX Formula Pinned Parallax Stage -->
+        <div class="dax-stage-container">
+          <div class="dax-stage" id="daxStage">
+
+            <!-- Formula Card 1 -->
+            <article class="dax-card-stage-item is-active" data-index="0">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">01 / 11</span>
+                <span class="dax-badge-cat">CORE REVENUE KPI</span>
+              </div>
+              <h3 class="dax-card-title">Total Sales Revenue</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-1">Copy DAX</button>
+                <pre><code id="code-dax-1">Total Sales = 
+SUM ( FactSales[net_revenue] )</code></pre>
+              </div>
+              <p class="dax-card-desc">Sums net revenue across the active filter context, providing the baseline top-line financial metric for executive dashboard views.</p>
+            </article>
+
+            <!-- Formula Card 2 -->
+            <article class="dax-card-stage-item" data-index="1">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">02 / 11</span>
+                <span class="dax-badge-cat">PROFITABILITY</span>
+              </div>
+              <h3 class="dax-card-title">Total Realized Profit</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-2">Copy DAX</button>
+                <pre><code id="code-dax-2">Total Profit = 
+SUM ( FactSales[gross_profit] )</code></pre>
+              </div>
+              <p class="dax-card-desc">Calculates total net realized profit by aggregating line-item gross profit (Net Revenue minus Cost of Goods Sold).</p>
+            </article>
+
+            <!-- Formula Card 3 -->
+            <article class="dax-card-stage-item" data-index="2">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">03 / 11</span>
+                <span class="dax-badge-cat">MARGIN RATIO</span>
+              </div>
+              <h3 class="dax-card-title">Gross Profit Margin %</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-3">Copy DAX</button>
+                <pre><code id="code-dax-3">Profit Margin % = 
+DIVIDE ( [Total Profit], [Total Sales], 0 )</code></pre>
+              </div>
+              <p class="dax-card-desc">Safe division measure computing net profit margin percentage, preventing divide-by-zero errors when evaluating filtered periods.</p>
+            </article>
+
+            <!-- Formula Card 4 -->
+            <article class="dax-card-stage-item" data-index="3">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">04 / 11</span>
+                <span class="dax-badge-cat">VOLUME METRICS</span>
+              </div>
+              <h3 class="dax-card-title">Total Orders Count</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-4">Copy DAX</button>
+                <pre><code id="code-dax-4">Total Orders = 
+DISTINCTCOUNT ( FactSales[order_id] )</code></pre>
+              </div>
+              <p class="dax-card-desc">Counts unique completed customer transactions, enabling basket size and average spend calculation metrics.</p>
+            </article>
+
+            <!-- Formula Card 5 -->
+            <article class="dax-card-stage-item" data-index="4">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">05 / 11</span>
+                <span class="dax-badge-cat">TRANSACTION ANALYSIS</span>
+              </div>
+              <h3 class="dax-card-title">Average Order Value (AOV)</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-5">Copy DAX</button>
+                <pre><code id="code-dax-5">Average Order Value = 
+DIVIDE ( [Total Sales], [Total Orders], 0 )</code></pre>
+              </div>
+              <p class="dax-card-desc">Tracks average monetary spend per transaction, helping identify high-value ordering channels and promotion performance.</p>
+            </article>
+
+            <!-- Formula Card 6 -->
+            <article class="dax-card-stage-item" data-index="5">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">06 / 11</span>
+                <span class="dax-badge-cat">TIME INTELLIGENCE</span>
+              </div>
+              <h3 class="dax-card-title">Sales Previous Month (PM)</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-6">Copy DAX</button>
+                <pre><code id="code-dax-6">Sales Previous Month = 
+CALCULATE (
+    [Total Sales],
+    DATEADD ( DimDate[date_key], -1, MONTH )
+)</code></pre>
+              </div>
+              <p class="dax-card-desc">Shifts the active filter context back by one month using <code>DimDate</code>, providing the baseline for MoM variance tracking.</p>
+            </article>
+
+            <!-- Formula Card 7 -->
+            <article class="dax-card-stage-item" data-index="6">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">07 / 11</span>
+                <span class="dax-badge-cat">GROWTH RATE</span>
+              </div>
+              <h3 class="dax-card-title">MoM Sales Growth %</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-7">Copy DAX</button>
+                <pre><code id="code-dax-7">MoM Sales Growth % = 
+DIVIDE (
+    [Total Sales] - [Sales Previous Month],
+    [Sales Previous Month],
+    0
+)</code></pre>
+              </div>
+              <p class="dax-card-desc">Calculates percentage revenue expansion or contraction relative to the previous calendar month.</p>
+            </article>
+
+            <!-- Formula Card 8 -->
+            <article class="dax-card-stage-item" data-index="7">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">08 / 11</span>
+                <span class="dax-badge-cat">TIME INTELLIGENCE</span>
+              </div>
+              <h3 class="dax-card-title">Profit Previous Month (PM)</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-8">Copy DAX</button>
+                <pre><code id="code-dax-8">Profit Previous Month = 
+CALCULATE (
+    [Total Profit],
+    DATEADD ( DimDate[date_key], -1, MONTH )
+)</code></pre>
+              </div>
+              <p class="dax-card-desc">Shifts profit calculations to the preceding month, evaluating net earnings trajectory over time.</p>
+            </article>
+
+            <!-- Formula Card 9 -->
+            <article class="dax-card-stage-item" data-index="8">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">09 / 11</span>
+                <span class="dax-badge-cat">GROWTH RATE</span>
+              </div>
+              <h3 class="dax-card-title">MoM Profit Growth %</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-9">Copy DAX</button>
+                <pre><code id="code-dax-9">MoM Profit Growth % = 
+DIVIDE (
+    [Total Profit] - [Profit Previous Month],
+    [Profit Previous Month],
+    0
+)</code></pre>
+              </div>
+              <p class="dax-card-desc">Monitors period-over-period net profit acceleration to ensure revenue growth translates into bottom-line earnings.</p>
+            </article>
+
+            <!-- Formula Card 10 -->
+            <article class="dax-card-stage-item" data-index="9">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">10 / 11</span>
+                <span class="dax-badge-cat">PRODUCTIVITY</span>
+              </div>
+              <h3 class="dax-card-title">Sales per Store Location</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-10">Copy DAX</button>
+                <pre><code id="code-dax-10">Sales per Store = 
+DIVIDE (
+    [Total Sales],
+    DISTINCTCOUNT ( FactSales[store_id] ),
+    0
+)</code></pre>
+              </div>
+              <p class="dax-card-desc">Benchmarks physical store efficiency by normalizing sales volume across active regional store counts.</p>
+            </article>
+
+            <!-- Formula Card 11 -->
+            <article class="dax-card-stage-item" data-index="10">
+              <div class="dax-card-bg-glow" aria-hidden="true"></div>
+              <div class="dax-meta-row">
+                <span class="dax-badge-num">11 / 11</span>
+                <span class="dax-badge-cat">INVENTORY ANALYTICS</span>
+              </div>
+              <h3 class="dax-card-title">Inventory Turnover Ratio</h3>
+              <div class="dax-code-wrapper">
+                <button class="copy-btn" data-copy-target="code-dax-11">Copy DAX</button>
+                <pre><code id="code-dax-11">Inventory Turnover = 
+VAR UnitsSold = SUM ( FactSales[quantity] )
+VAR AvgUnitsOnHand = AVERAGE ( FactInventory[units_on_hand] )
+RETURN
+    DIVIDE ( UnitsSold, AvgUnitsOnHand, 0 )</code></pre>
+              </div>
+              <p class="dax-card-desc">Measures inventory replacement velocity to prevent stock-outs and overstock holding costs.</p>
+            </article>
+
+          </div>
+
+          <!-- Quick Navigation Controls & Step Dots -->
+          <div class="dax-controls-bar">
+            <button class="dax-nav-arrow" id="daxPrevBtn" aria-label="Previous Formula">❮</button>
+            <div class="dax-dots-track" id="daxDots">
+              <button class="dax-dot-btn is-active" data-index="0">01</button>
+              <button class="dax-dot-btn" data-index="1">02</button>
+              <button class="dax-dot-btn" data-index="2">03</button>
+              <button class="dax-dot-btn" data-index="3">04</button>
+              <button class="dax-dot-btn" data-index="4">05</button>
+              <button class="dax-dot-btn" data-index="5">06</button>
+              <button class="dax-dot-btn" data-index="6">07</button>
+              <button class="dax-dot-btn" data-index="7">08</button>
+              <button class="dax-dot-btn" data-index="8">09</button>
+              <button class="dax-dot-btn" data-index="9">10</button>
+              <button class="dax-dot-btn" data-index="10">11</button>
+            </div>
+            <button class="dax-nav-arrow" id="daxNextBtn" aria-label="Next Formula">❯</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= ILLUSTRATIVE KPIS & INSIGHTS ============================= -->
+  <section id="insights" class="section insights-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Results & Findings</span>
+        <h2>Illustrative KPIs & Strategic Insights</h2>
+        <p>Key analytics insights derived from the simulated retail data model.</p>
+      </div>
+
+      <div class="kpi-callouts-grid" data-reveal="stagger">
+        <div class="kpi-card reveal-card">
+          <div class="kpi-title">Total Sales Revenue</div>
+          <div class="kpi-main-val">$4.82M</div>
+          <div class="kpi-note">Project Demo Illustrative Metric</div>
+        </div>
+        <div class="kpi-card reveal-card">
+          <div class="kpi-title">Total Realized Profit</div>
+          <div class="kpi-main-val">$612K</div>
+          <div class="kpi-note">Project Demo Illustrative Metric</div>
+        </div>
+        <div class="kpi-card reveal-card">
+          <div class="kpi-title">Gross Profit Margin</div>
+          <div class="kpi-main-val">12.7%</div>
+          <div class="kpi-note">Project Demo Illustrative Metric</div>
+        </div>
+        <div class="kpi-card reveal-card">
+          <div class="kpi-title">MoM Sales Growth</div>
+          <div class="kpi-main-val">8.4%</div>
+          <div class="kpi-note">Project Demo Illustrative Metric</div>
+        </div>
+        <div class="kpi-card reveal-card">
+          <div class="kpi-title">Simulated Transactions</div>
+          <div class="kpi-main-val">50,000+</div>
+          <div class="kpi-note">Project Demo Simulated Volume</div>
+        </div>
+      </div>
+
+      <div class="disclaimer-callout-box reveal-card">
+        <p><strong>Portfolio Note:</strong> All figures above are simulated for project demonstration and do not represent actual client performance.</p>
+      </div>
+
+      <div class="insights-grid" data-reveal="stagger">
+        <div class="insight-item reveal-card">
+          <h4>1. Technology Department Drives 38% of Revenue</h4>
+          <p>Laptops and Smart TVs represent high single-unit revenue, but discounting over 10% severely erodes net profit margin.</p>
+        </div>
+        <div class="insight-item reveal-card">
+          <h4>2. Flagship Stores Outperform Outlets by 2.4x</h4>
+          <p>Manhattan and San Francisco stores generate higher revenue per square foot, whereas outlet channels rely heavily on price promotional discounts.</p>
+        </div>
+        <div class="insight-item reveal-card">
+          <h4>3. Platinum Loyalty Members Account for 45% of Repeat Orders</h4>
+          <p>Targeted loyalty promotions generate higher customer lifetime value with lower customer acquisition cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= TECH STACK RECOMMENDATIONS ============================= -->
+  <section id="techstack" class="section techstack-section">
+    <div class="wrap">
+      <div class="section-head reveal-card">
+        <span class="section-kicker">Architecture Blueprint</span>
+        <h2>Tech Stack Recommendations</h2>
+        <p>Recommended multi-tier production architecture for scalable, real-time retail analytics solutions.</p>
+      </div>
+
+      <div class="techstack-table-container reveal-card">
+        <table class="techstack-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Recommended Technologies</th>
+              <th>Purpose & Capabilities</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="reveal-row">
+              <td><span class="layer-badge frontend">Frontend</span></td>
+              <td><strong>React / Next.js + Tailwind CSS</strong></td>
+              <td>Fast, responsive UI components with server-side rendering and utility-first styling.</td>
+            </tr>
+            <tr class="reveal-row">
+              <td><span class="layer-badge dataviz">Data Viz</span></td>
+              <td><strong>Chart.js, Recharts, or Apache ECharts</strong></td>
+              <td>Interactive charts, geographic heatmaps, treemaps, and real-time dashboard gauges.</td>
+            </tr>
+            <tr class="reveal-row">
+              <td><span class="layer-badge backend">Backend</span></td>
+              <td><strong>Node.js (Express) or Python (FastAPI)</strong></td>
+              <td>Efficient REST/GraphQL APIs for analytical data processing and aggregation endpoints.</td>
+            </tr>
+            <tr class="reveal-row">
+              <td><span class="layer-badge database">Database</span></td>
+              <td><strong>PostgreSQL or Snowflake</strong></td>
+              <td>High-performance relational transactional storage & analytical cloud data warehousing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <h3>RETAIL SALES ANALYTICS</h3>
+      <p>A project-demo retail analytics solution using PostgreSQL, Power BI, and DAX.</p>
+    </div>
+    <div class="footer-disclaimer">
+      <p><strong>Disclaimer:</strong> This is a demonstration project using simulated retail data. All results, KPIs, insights, and metrics are <em>Illustrative</em>, <em>Simulated</em>, and strictly for <em>Project Demo</em> portfolio purposes.</p>
+    </div>
+    <div class="footer-copyright">
+      <p>© 2026 Data Analyst Portfolio. Built with HTML, CSS, JavaScript.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
