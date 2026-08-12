@@ -307,13 +307,15 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  color: #ffffff;
-  border: 1px solid #38bdf8;
+  background: rgba(17, 24, 39, 0.5);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: none;
 }
 
 .btn-primary:hover {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
   box-shadow: none;
 }
